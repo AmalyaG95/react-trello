@@ -1,0 +1,17 @@
+.section {
+    .name {
+        margin: 1em 0;
+        font-size: 1.5em;
+    }
+
+    .body {
+        min-height: 111px;
+        border: 3px solid black;
+        border-radius: 6px;
+        margin: 1.5em 0.25em;
+    }
+
+    .dragOver {
+        padding-bottom: 80px;
+    }
+}

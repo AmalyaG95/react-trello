@@ -1,0 +1,14 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.5em;
+    background: rgb(223, 233, 231);
+    border-radius: 20px;
+    min-height: 94vh;
+
+    h1 {
+        margin: 0.75em;
+        font-size: 2rem;
+    }
+}
