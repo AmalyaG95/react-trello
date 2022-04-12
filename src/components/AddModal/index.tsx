@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import styles from "./index.module.scss";
-import { globalActionTypes } from "../../types/global";
+import { globalReducerTypes } from "../../types/global";
 import { ModalReducerTypes } from "../../types/Modal";
 import { selectModalData } from "../../redux/selectors";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
@@ -13,14 +13,14 @@ interface IModalProps {
     name: string;
 }
 
-const Modal = ({ name }: IModalProps) => {
+const AddModal = ({ name }: IModalProps) => {
     const dispatch = useDispatch();
     const { section, sections, task, tasks } =
         useTypedSelector(selectModalData);
 
     const closeModal = (e: any) => {
         e.preventDefault();
-        dispatch({ type: globalActionTypes.CLOSE_MODAL });
+        dispatch({ type: globalReducerTypes.CLOSE_ADD_MODAL });
     };
 
     const changeValue = (e: any) => {
@@ -65,7 +65,7 @@ const Modal = ({ name }: IModalProps) => {
             localStorage.setItem("tasks", JSON.stringify(tasks));
             dispatch({ type: ModalReducerTypes.RESET_TASK });
         }
-        dispatch({ type: globalActionTypes.CLOSE_MODAL });
+        dispatch({ type: globalReducerTypes.CLOSE_ADD_MODAL });
     };
 
     const handleClick = (e: any) => {
@@ -192,4 +192,4 @@ const Modal = ({ name }: IModalProps) => {
     );
 };
 
-export default memo(Modal);
+export default memo(AddModal);

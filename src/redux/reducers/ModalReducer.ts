@@ -25,6 +25,12 @@ const initialState: IModalState = {
         localStorage.getItem("tasks") != null
             ? JSON.parse(localStorage.getItem("tasks") || "")
             : [],
+    editableTask: {
+        id: undefined,
+        sectionId: undefined,
+        title: "",
+        desc: "",
+    },
 };
 
 const reducer = (
@@ -65,11 +71,19 @@ const reducer = (
                         [id]: value,
                     },
                 };
-            } else {
+            } else if (name === "task") {
                 return {
                     ...state,
                     task: {
                         ...state.task,
+                        [id]: value,
+                    },
+                };
+            } else {
+                return {
+                    ...state,
+                    editableTask: {
+                        ...state.editableTask,
                         [id]: value,
                     },
                 };
@@ -110,6 +124,50 @@ const reducer = (
             return {
                 ...state,
                 tasks: tasksCopy,
+            };
+        }
+
+        case ModalReducerTypes.DELETE_TASK: {
+            const tasksCopy = state.tasks;
+            const newTasks = tasksCopy.filter((task) => task.id !== action.id);
+            localStorage.setItem("tasks", JSON.stringify(newTasks));
+
+            return {
+                ...state,
+                tasks: newTasks,
+            };
+        }
+
+        case ModalReducerTypes.SET_EDITABLE_TASK: {
+            return {
+                ...state,
+                editableTask: action.editableTask,
+            };
+        }
+
+        case ModalReducerTypes.RESET_EDITABLE_TASK: {
+            return {
+                ...state,
+                editableTask: {
+                    id: undefined,
+                    sectionId: undefined,
+                    title: "",
+                    desc: "",
+                },
+            };
+        }
+
+        case ModalReducerTypes.EDIT_TASK: {
+            const newTasks = state.tasks.map((task) => {
+                if (action.editableTask.id === task.id)
+                    return action.editableTask;
+                return task;
+            });
+            localStorage.setItem("tasks", JSON.stringify(newTasks));
+
+            return {
+                ...state,
+                tasks: newTasks,
             };
         }
 

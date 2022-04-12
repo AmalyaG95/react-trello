@@ -5,6 +5,10 @@ export enum ModalReducerTypes {
     RESET_TASK = "RESET_TASK",
     ADD_TASK = "ADD_TASK",
     CHANGE_TASK_SECTION = "CHANGE_TASK_SECTION",
+    DELETE_TASK = "DELETE_TASK",
+    SET_EDITABLE_TASK = "SET_EDITABLE_TASK",
+    RESET_EDITABLE_TASK = "RESET_EDITABLE_TASK",
+    EDIT_TASK = "EDIT_TASK",
 }
 
 export type sectionType = {
@@ -25,6 +29,7 @@ export interface IModalState {
     sections: sectionType[];
     task: taskType;
     tasks: taskType[];
+    editableTask: taskType;
 }
 
 interface IResetSectionAction {
@@ -58,10 +63,33 @@ interface IChangeTaskSectionAction {
     sectionId: string;
 }
 
+interface IDeleteTaskAction {
+    type: ModalReducerTypes.DELETE_TASK;
+    id: string;
+}
+
+interface ISetEditableTaskAction {
+    type: ModalReducerTypes.SET_EDITABLE_TASK;
+    editableTask: taskType;
+}
+
+interface IResetEditableTaskAction {
+    type: ModalReducerTypes.RESET_EDITABLE_TASK;
+}
+
+interface IEditTaskAction {
+    type: ModalReducerTypes.EDIT_TASK;
+    editableTask: taskType;
+}
+
 export type ModalActionType =
     | IResetSectionAction
     | IAddSectionAction
     | IChangeInputValueAction
     | IResetTaskAction
     | IAddTaskAction
-    | IChangeTaskSectionAction;
+    | IChangeTaskSectionAction
+    | IDeleteTaskAction
+    | ISetEditableTaskAction
+    | IResetEditableTaskAction
+    | IEditTaskAction;

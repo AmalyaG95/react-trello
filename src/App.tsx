@@ -1,12 +1,16 @@
 import "./App.scss";
 import Actions from "./components/Actions";
-import Modal from "./components/Modal";
+import AddModal from "./components/AddModal";
+import ConfirmModal from "./components/ConfirmModal";
+import CustomDragLayer from "./components/CustomDragLayer";
+import EditModal from "./components/EditModal";
 import Sections from "./components/Sections";
 import { useTypedSelector } from "./hooks/useTypedSelector";
 import { selectGlobalData } from "./redux/selectors";
 
 function App() {
-    const { isOpenModal, modalName } = useTypedSelector(selectGlobalData);
+    const { isOpenAddModal, modalName, isOpenConfirmModal, isOpenEditModal } =
+        useTypedSelector(selectGlobalData);
 
     return (
         <>
@@ -15,7 +19,10 @@ function App() {
                 <Actions />
                 <Sections />
             </div>
-            {isOpenModal && <Modal name={modalName} />}
+            <CustomDragLayer />
+            {isOpenAddModal && <AddModal name={modalName} />}
+            {isOpenConfirmModal && <ConfirmModal />}
+            {isOpenEditModal && <EditModal />}
         </>
     );
 }

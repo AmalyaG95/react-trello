@@ -1,8 +1,10 @@
 import { reducerType } from "./store";
 
 const selectGlobalData = (state: reducerType) => ({
-    isOpenModal: state.globalState.isOpenModal,
+    isOpenAddModal: state.globalState.isOpenAddModal,
     modalName: state.globalState.modalName,
+    isOpenConfirmModal: state.globalState.isOpenConfirmModal,
+    isOpenEditModal: state.globalState.isOpenEditModal,
 });
 
 const selectModalData = (state: reducerType) => ({
@@ -10,6 +12,12 @@ const selectModalData = (state: reducerType) => ({
     sections: state.ModalState.sections,
     task: state.ModalState.task,
     tasks: state.ModalState.tasks,
+    editableTask: state.ModalState.editableTask,
 });
 
-export { selectGlobalData, selectModalData };
+const selectTaskData = (state: reducerType) => ({
+    deletableTaskId: state.TaskState.deletableTaskId,
+    // isEditable: state.TaskState.isEditable,
+});
+
+export { selectGlobalData, selectModalData, selectTaskData };

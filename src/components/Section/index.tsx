@@ -35,7 +35,7 @@ const Section = ({ section }: ISectionProps) => {
     });
     return (
         <div key={section.id} className={styles.section} ref={drop}>
-            <h2 className={styles.name}>{section.name}</h2>
+            <h2 className={styles.name}>{section.name.toUpperCase()}</h2>
             <div
                 className={styles.body}
                 style={{
@@ -48,10 +48,7 @@ const Section = ({ section }: ISectionProps) => {
                         return section.id === task.sectionId;
                     })
                     .map((filteredTask: taskType) => (
-                        <Task
-                            key={filteredTask.id}
-                            filteredTask={filteredTask}
-                        />
+                        <Task key={filteredTask.id} task={filteredTask} />
                     ))}
             </div>
         </div>

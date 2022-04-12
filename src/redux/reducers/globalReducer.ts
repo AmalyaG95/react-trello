@@ -1,12 +1,14 @@
 import {
     globalActionType,
-    globalActionTypes,
+    globalReducerTypes,
     IGlobalState,
 } from "../../types/global";
 
 const initialState: IGlobalState = {
-    isOpenModal: false,
+    isOpenAddModal: false,
     modalName: "",
+    isOpenConfirmModal: false,
+    isOpenEditModal: false,
 };
 
 const reducer = (
@@ -14,18 +16,46 @@ const reducer = (
     action: globalActionType
 ): IGlobalState => {
     switch (action.type) {
-        case globalActionTypes.OPEN_MODAL: {
+        case globalReducerTypes.OPEN_ADD_MODAL: {
             return {
                 ...state,
-                isOpenModal: true,
+                isOpenAddModal: true,
                 modalName: action.name,
             };
         }
 
-        case globalActionTypes.CLOSE_MODAL: {
+        case globalReducerTypes.CLOSE_ADD_MODAL: {
             return {
                 ...state,
-                isOpenModal: false,
+                isOpenAddModal: false,
+            };
+        }
+
+        case globalReducerTypes.OPEN_CONFIRM_MODAL: {
+            return {
+                ...state,
+                isOpenConfirmModal: true,
+            };
+        }
+
+        case globalReducerTypes.CLOSE_CONFIRM_MODAL: {
+            return {
+                ...state,
+                isOpenConfirmModal: false,
+            };
+        }
+
+        case globalReducerTypes.OPEN_EDIT_MODAL: {
+            return {
+                ...state,
+                isOpenEditModal: true,
+            };
+        }
+
+        case globalReducerTypes.CLOSE_EDIT_MODAL: {
+            return {
+                ...state,
+                isOpenEditModal: false,
             };
         }
 
