@@ -1,22 +1,22 @@
 import { ITaskState, TaskActionType, TaskReducerTypes } from "../../types/Task";
 
 const initialState: ITaskState = {
-    deletableTaskId: undefined,
+    deletableItemId: undefined,
 };
 
 const reducer = (state = initialState, action: TaskActionType): ITaskState => {
     switch (action.type) {
-        case TaskReducerTypes.SET_DELETABLE_TASK_ID: {
+        case TaskReducerTypes.SET_DELETABLE_ITEM_ID: {
             return {
                 ...state,
-                deletableTaskId: action.id,
+                deletableItemId: action.id,
             };
         }
 
-        case TaskReducerTypes.REMOVE_DELETABLE_TASK_ID: {
+        case TaskReducerTypes.REMOVE_DELETABLE_ITEM_ID: {
             return {
                 ...state,
-                deletableTaskId: undefined,
+                deletableItemId: undefined,
             };
         }
 

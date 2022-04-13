@@ -25,6 +25,7 @@ interface ICloseAddModalAction {
 
 interface IOpenConfirmModalAction {
     type: globalReducerTypes.OPEN_CONFIRM_MODAL;
+    name: string;
 }
 
 interface ICloseConfirmModalAction {

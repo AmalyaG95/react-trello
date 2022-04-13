@@ -6,14 +6,14 @@ import { ItemTypes } from "../../utils/items";
 import { ModalReducerTypes, taskType } from "../../types/Modal";
 import { useDispatch } from "react-redux";
 import { globalReducerTypes } from "../../types/global";
-import { TaskReducerTypes } from "../../types/Task";
 import { getEmptyImage } from "react-dnd-html5-backend";
 
 interface ITaskProps {
     task: taskType;
+    handleOpenConfirmModal: (id: string, name: string) => void;
 }
 
-const Task = ({ task }: ITaskProps) => {
+const Task = ({ task, handleOpenConfirmModal }: ITaskProps) => {
     const dispatch = useDispatch();
     const [{ isDragging }, drag, dragPreview] = useDrag(
         () => ({
@@ -29,14 +29,6 @@ const Task = ({ task }: ITaskProps) => {
     useEffect(() => {
         dragPreview(getEmptyImage(), { captureDraggingState: true });
     }, [dragPreview]);
-
-    const handleOpenConfirmModal = () => {
-        dispatch({ type: globalReducerTypes.OPEN_CONFIRM_MODAL });
-        dispatch({
-            type: TaskReducerTypes.SET_DELETABLE_TASK_ID,
-            id: task.id,
-        });
-    };
 
     const handleOpenEditModal = (_e: any, _editableTask: taskType) => {
         dispatch({
@@ -57,11 +49,14 @@ const Task = ({ task }: ITaskProps) => {
                 style={{
                     opacity: isDragging ? "0.5" : "1",
                 }}
-                onDoubleClick={(e) => handleOpenEditModal(e, task)}
+                onClick={(e) => handleOpenEditModal(e, task)}
             >
                 <span
                     className={styles.deleteBtn}
-                    onClick={handleOpenConfirmModal}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenConfirmModal(task.id!, "task");
+                    }}
                 >
                     &times;
                 </span>

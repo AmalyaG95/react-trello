@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo, useCallback } from "react";
 
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
@@ -9,6 +9,8 @@ import { selectModalData } from "../../redux/selectors";
 import { ModalReducerTypes, sectionType, taskType } from "../../types/Modal";
 import { ItemTypes } from "../../utils/items";
 import Task from "../Task";
+import { globalReducerTypes } from "../../types/global";
+import { TaskReducerTypes } from "../../types/Task";
 
 interface ISectionProps {
     section: sectionType;
@@ -33,8 +35,23 @@ const Section = ({ section }: ISectionProps) => {
             isOver: !!monitor.isOver(),
         }),
     });
+
+    const handleOpenConfirmModal = useCallback((id: string, name: string) => {
+        dispatch({ type: globalReducerTypes.OPEN_CONFIRM_MODAL, name });
+        dispatch({
+            type: TaskReducerTypes.SET_DELETABLE_ITEM_ID,
+            id,
+        });
+    }, []);
+
     return (
         <div key={section.id} className={styles.section} ref={drop}>
+            <span
+                className={styles.deleteBtn}
+                onClick={() => handleOpenConfirmModal(section.id!, "section")}
+            >
+                &times;
+            </span>
             <h2 className={styles.name}>{section.name.toUpperCase()}</h2>
             <div
                 className={styles.body}
@@ -48,7 +65,11 @@ const Section = ({ section }: ISectionProps) => {
                         return section.id === task.sectionId;
                     })
                     .map((filteredTask: taskType) => (
-                        <Task key={filteredTask.id} task={filteredTask} />
+                        <Task
+                            key={filteredTask.id}
+                            task={filteredTask}
+                            handleOpenConfirmModal={handleOpenConfirmModal}
+                        />
                     ))}
             </div>
         </div>

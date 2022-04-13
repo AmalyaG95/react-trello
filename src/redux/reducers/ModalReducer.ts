@@ -128,14 +128,29 @@ const reducer = (
         }
 
         case ModalReducerTypes.DELETE_TASK: {
-            const tasksCopy = state.tasks;
-            const newTasks = tasksCopy.filter((task) => task.id !== action.id);
-            localStorage.setItem("tasks", JSON.stringify(newTasks));
+            if (action.name === "task") {
+                const tasksCopy = state.tasks;
+                const newTasks = tasksCopy.filter(
+                    (task) => task.id !== action.id
+                );
+                localStorage.setItem("tasks", JSON.stringify(newTasks));
 
-            return {
-                ...state,
-                tasks: newTasks,
-            };
+                return {
+                    ...state,
+                    tasks: newTasks,
+                };
+            } else {
+                const sectionsCopy = state.sections;
+                const newSections = sectionsCopy.filter(
+                    (section) => section.id !== action.id
+                );
+                localStorage.setItem("sections", JSON.stringify(newSections));
+
+                return {
+                    ...state,
+                    sections: newSections,
+                };
+            }
         }
 
         case ModalReducerTypes.SET_EDITABLE_TASK: {

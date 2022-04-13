@@ -1,19 +1,17 @@
-import { taskType } from "./Modal";
-
 export enum TaskReducerTypes {
-    SET_DELETABLE_TASK_ID = "SET_DELETABLE_TASK_ID",
-    REMOVE_DELETABLE_TASK_ID = "REMOVE_DELETABLE_TASK_ID",
+    SET_DELETABLE_ITEM_ID = "SET_DELETABLE_ITEM_ID",
+    REMOVE_DELETABLE_ITEM_ID = "REMOVE_DELETABLE_ITEM_ID",
     // SET_IS_EDITABLE = "SET_IS_EDITABLE",
     // REMOVE_IS_EDITABLE = "REMOVE_IS_EDITABLE",
 }
 
 export interface ITaskState {
-    deletableTaskId: string | undefined;
+    deletableItemId: string | undefined;
     // isEditable: boolean;
 }
 
-interface ISetDeletableTaskIdAction {
-    type: TaskReducerTypes.SET_DELETABLE_TASK_ID;
+interface ISetdeletableItemIdAction {
+    type: TaskReducerTypes.SET_DELETABLE_ITEM_ID;
     id: string;
 }
 
@@ -25,10 +23,10 @@ interface ISetDeletableTaskIdAction {
 //     type: TaskReducerTypes.REMOVE_IS_EDITABLE;
 // }
 
-interface IRemoveDeletableTaskIdAction {
-    type: TaskReducerTypes.REMOVE_DELETABLE_TASK_ID;
+interface IRemovedeletableItemIdAction {
+    type: TaskReducerTypes.REMOVE_DELETABLE_ITEM_ID;
 }
 
 export type TaskActionType =
-    | ISetDeletableTaskIdAction
-    | IRemoveDeletableTaskIdAction;
+    | ISetdeletableItemIdAction
+    | IRemovedeletableItemIdAction;

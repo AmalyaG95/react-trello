@@ -16,7 +16,7 @@ const selectModalData = (state: reducerType) => ({
 });
 
 const selectTaskData = (state: reducerType) => ({
-    deletableTaskId: state.TaskState.deletableTaskId,
+    deletableItemId: state.TaskState.deletableItemId,
     // isEditable: state.TaskState.isEditable,
 });
 

@@ -35,6 +35,7 @@ const reducer = (
             return {
                 ...state,
                 isOpenConfirmModal: true,
+                modalName: action.name,
             };
         }
 

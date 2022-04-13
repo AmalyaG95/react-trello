@@ -66,6 +66,7 @@ interface IChangeTaskSectionAction {
 interface IDeleteTaskAction {
     type: ModalReducerTypes.DELETE_TASK;
     id: string;
+    name: string;
 }
 
 interface ISetEditableTaskAction {

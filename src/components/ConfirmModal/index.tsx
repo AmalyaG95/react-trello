@@ -7,8 +7,12 @@ import { globalReducerTypes } from "../../types/global";
 
 import styles from "./index.module.scss";
 
-const ConfirmModal = () => {
-    const { deletableTaskId } = useTypedSelector(selectTaskData);
+interface IConfirmModalProps {
+    name: string;
+}
+
+const ConfirmModal = ({ name }: IConfirmModalProps) => {
+    const { deletableItemId } = useTypedSelector(selectTaskData);
     const dispatch = useDispatch();
 
     const handleCloseModal = (e: any) => {
@@ -16,11 +20,12 @@ const ConfirmModal = () => {
         dispatch({ type: globalReducerTypes.CLOSE_CONFIRM_MODAL });
     };
 
-    const handleDeleteTask = (e: any) => {
+    const handleDeleteTask = (e: any, name: string) => {
         e.preventDefault();
         dispatch({
             type: ModalReducerTypes.DELETE_TASK,
-            id: deletableTaskId,
+            id: deletableItemId,
+            name,
         });
         dispatch({ type: globalReducerTypes.CLOSE_CONFIRM_MODAL });
     };
@@ -41,12 +46,17 @@ const ConfirmModal = () => {
                 </span>
 
                 <form className={styles.form} id="addTaskForm">
-                    <h1>Do You want to delete the task</h1>
+                    <h1>Do You want to delete the {name}</h1>
 
                     <div className={styles.actionBtns}>
                         <button
                             className={styles.deleteBtn}
-                            onClick={handleDeleteTask}
+                            onClick={(e) =>
+                                handleDeleteTask(
+                                    e,
+                                    name === "section" ? "section" : "task"
+                                )
+                            }
                         >
                             Delete
                         </button>

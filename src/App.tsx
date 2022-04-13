@@ -21,7 +21,7 @@ function App() {
             </div>
             <CustomDragLayer />
             {isOpenAddModal && <AddModal name={modalName} />}
-            {isOpenConfirmModal && <ConfirmModal />}
+            {isOpenConfirmModal && <ConfirmModal name={modalName} />}
             {isOpenEditModal && <EditModal />}
         </>
     );
