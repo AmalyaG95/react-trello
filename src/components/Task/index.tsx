@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { useDrag } from "react-dnd";
 
 import styles from "./index.module.scss";
@@ -30,15 +30,18 @@ const Task = ({ task, handleOpenConfirmModal }: ITaskProps) => {
         dragPreview(getEmptyImage(), { captureDraggingState: true });
     }, [dragPreview]);
 
-    const handleOpenEditModal = (_e: any, _editableTask: taskType) => {
-        dispatch({
-            type: globalReducerTypes.OPEN_EDIT_MODAL,
-        });
-        dispatch({
-            type: ModalReducerTypes.SET_EDITABLE_TASK,
-            editableTask: _editableTask,
-        });
-    };
+    const handleOpenEditModal = useCallback(
+        (_e: any, _editableTask: taskType) => {
+            dispatch({
+                type: globalReducerTypes.OPEN_EDIT_MODAL,
+            });
+            dispatch({
+                type: ModalReducerTypes.SET_EDITABLE_TASK,
+                editableTask: _editableTask,
+            });
+        },
+        []
+    );
 
     return (
         <>
@@ -63,12 +66,6 @@ const Task = ({ task, handleOpenConfirmModal }: ITaskProps) => {
                 <div>
                     <h3>{task.title}</h3>
                     <p>{task.desc}</p>
-                    {/* <button
-                        className={styles.editBtn}
-                        onClick={(e) => handleOpenEditModal(e, task)}
-                    >
-                        Edit task
-                    </button> */}
                 </div>
             </div>
         </>

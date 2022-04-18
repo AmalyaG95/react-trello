@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -18,63 +18,77 @@ const AddModal = ({ name }: IModalProps) => {
     const { section, sections, task, tasks } =
         useTypedSelector(selectModalData);
 
-    const closeModal = (e: any) => {
+    const closeModal = useCallback((e: any) => {
         e.preventDefault();
         dispatch({ type: globalReducerTypes.CLOSE_ADD_MODAL });
-    };
+    }, []);
 
-    const changeValue = (e: any) => {
-        dispatch({
-            type: ModalReducerTypes.CHANGE_INPUT_VALUE,
-            name: name === "Add Section" ? "section" : "task",
-            id: e.target.id,
-            value: e.target.value,
-        });
-    };
+    const changeValue = useCallback(
+        (e: any) => {
+            dispatch({
+                type: ModalReducerTypes.CHANGE_INPUT_VALUE,
+                name: name === "Add Section" ? "section" : "task",
+                id: e.target.id,
+                value: e.target.value,
+            });
+        },
+        [name]
+    );
 
-    const add = (e: any) => {
-        e.preventDefault();
+    const add = useCallback(
+        (e: any) => {
+            e.preventDefault();
 
-        if (name === "Add Section") {
-            if (section.name === "" || section.color === "#000000") {
-                return;
+            if (name === "Add Section") {
+                if (section.name === "" || section.color === "#000000") {
+                    return;
+                }
+                dispatch({
+                    type: ModalReducerTypes.ADD_SECTION,
+                    section: {
+                        id: uuidv4(),
+                        name: section.name,
+                        color: section.color,
+                    },
+                });
+
+                localStorage.setItem("sections", JSON.stringify(sections));
+                dispatch({ type: ModalReducerTypes.RESET_SECTION });
+            } else if (name === "Add Task") {
+                if (task.title === "" || task.desc === "") return;
+
+                dispatch({
+                    type: ModalReducerTypes.ADD_TASK,
+                    task: {
+                        id: uuidv4(),
+                        sectionId: sections[0].id,
+                        title: task.title,
+                        desc: task.desc,
+                    },
+                });
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                dispatch({ type: ModalReducerTypes.RESET_TASK });
             }
-            dispatch({
-                type: ModalReducerTypes.ADD_SECTION,
-                section: {
-                    id: uuidv4(),
-                    name: section.name,
-                    color: section.color,
-                },
-            });
+            dispatch({ type: globalReducerTypes.CLOSE_ADD_MODAL });
+        },
+        [
+            name,
+            section.color,
+            section.name,
+            task.desc,
+            sections,
+            task.title,
+            tasks,
+        ]
+    );
 
-            localStorage.setItem("sections", JSON.stringify(sections));
-            dispatch({ type: ModalReducerTypes.RESET_SECTION });
-        } else if (name === "Add Task") {
-            if (task.title === "" || task.desc === "") return;
-
-            dispatch({
-                type: ModalReducerTypes.ADD_TASK,
-                task: {
-                    id: uuidv4(),
-                    sectionId: sections[0].id,
-                    title: task.title,
-                    desc: task.desc,
-                },
-            });
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-            dispatch({ type: ModalReducerTypes.RESET_TASK });
-        }
-        dispatch({ type: globalReducerTypes.CLOSE_ADD_MODAL });
-    };
-
-    const handleClick = (e: any) => {
+    const handleClick = useCallback((e: any) => {
         closeModal(e);
-    };
+    }, []);
 
-    const stopProp = (e: any) => {
+    const stopProp = useCallback((e: any) => {
         e.stopPropagation();
-    };
+    }, []);
 
     return (
         <div className={styles.container} onClick={handleClick}>

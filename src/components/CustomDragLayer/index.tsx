@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
 import { useDragLayer, XYCoord } from "react-dnd";
 
@@ -24,9 +24,6 @@ const CustomDragLayer = () => {
                         <div>
                             <h3>{item.title}</h3>
                             <p>{item.desc}</p>
-                            {/* <button className={styles.editBtn}>
-                                Edit task
-                            </button> */}
                         </div>
                     </div>
                 );
@@ -35,24 +32,24 @@ const CustomDragLayer = () => {
         }
     };
 
-    function getItemStyles(
-        initialOffset: XYCoord | null,
-        currentOffset: XYCoord | null
-    ) {
-        if (!initialOffset || !currentOffset) {
+    const getItemStyles = useCallback(
+        (initialOffset: XYCoord | null, currentOffset: XYCoord | null) => {
+            if (!initialOffset || !currentOffset) {
+                return {
+                    display: "none",
+                };
+            }
+
+            const { x, y } = currentOffset;
+
+            const transform = `translate(${x}px, ${y}px)`;
             return {
-                display: "none",
+                transform,
+                WebkitTransform: transform,
             };
-        }
-
-        const { x, y } = currentOffset;
-
-        const transform = `translate(${x}px, ${y}px)`;
-        return {
-            transform,
-            WebkitTransform: transform,
-        };
-    }
+        },
+        []
+    );
 
     if (!isDragging) {
         return null;

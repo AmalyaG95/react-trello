@@ -5,7 +5,7 @@ export enum ModalReducerTypes {
     RESET_TASK = "RESET_TASK",
     ADD_TASK = "ADD_TASK",
     CHANGE_TASK_SECTION = "CHANGE_TASK_SECTION",
-    DELETE_TASK = "DELETE_TASK",
+    DELETE_ITEM = "DELETE_ITEM",
     SET_EDITABLE_TASK = "SET_EDITABLE_TASK",
     RESET_EDITABLE_TASK = "RESET_EDITABLE_TASK",
     EDIT_TASK = "EDIT_TASK",
@@ -64,7 +64,7 @@ interface IChangeTaskSectionAction {
 }
 
 interface IDeleteTaskAction {
-    type: ModalReducerTypes.DELETE_TASK;
+    type: ModalReducerTypes.DELETE_ITEM;
     id: string;
     name: string;
 }

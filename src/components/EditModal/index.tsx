@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { selectModalData } from "../../redux/selectors";
@@ -11,34 +11,37 @@ const EditModal = () => {
     const { editableTask } = useTypedSelector(selectModalData);
     const dispatch = useDispatch();
 
-    const handleCloseModal = (e: any) => {
+    const handleCloseModal = useCallback((e: any) => {
         e.preventDefault();
         dispatch({ type: globalReducerTypes.CLOSE_EDIT_MODAL });
         dispatch({ type: ModalReducerTypes.RESET_EDITABLE_TASK });
-    };
+    }, []);
 
-    const changeValue = (e: any) => {
+    const changeValue = useCallback((e: any) => {
         dispatch({
             type: ModalReducerTypes.CHANGE_INPUT_VALUE,
             name: "editableTask",
             id: e.target.id,
             value: e.target.value,
         });
-    };
+    }, []);
 
-    const handleEditTask = (e: any) => {
-        e.preventDefault();
-        dispatch({
-            type: ModalReducerTypes.EDIT_TASK,
-            editableTask,
-        });
-        dispatch({ type: globalReducerTypes.CLOSE_EDIT_MODAL });
-        dispatch({ type: ModalReducerTypes.RESET_EDITABLE_TASK });
-    };
+    const handleEditTask = useCallback(
+        (e: any) => {
+            e.preventDefault();
+            dispatch({
+                type: ModalReducerTypes.EDIT_TASK,
+                editableTask,
+            });
+            dispatch({ type: globalReducerTypes.CLOSE_EDIT_MODAL });
+            dispatch({ type: ModalReducerTypes.RESET_EDITABLE_TASK });
+        },
+        [editableTask]
+    );
 
-    const stopProp = (e: any) => {
+    const stopProp = useCallback((e: any) => {
         e.stopPropagation();
-    };
+    }, []);
 
     return (
         <div className={styles.container} onClick={handleCloseModal}>

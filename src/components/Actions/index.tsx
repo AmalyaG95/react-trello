@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import styles from "./index.module.scss";
@@ -7,12 +7,12 @@ import { globalReducerTypes } from "../../types/global";
 const Actions = () => {
     const dispatch = useDispatch();
 
-    const openModal = (e: any) => {
+    const openModal = useCallback((e: any) => {
         dispatch({
             type: globalReducerTypes.OPEN_ADD_MODAL,
             name: e.target.value,
         });
-    };
+    }, []);
 
     return (
         <div>

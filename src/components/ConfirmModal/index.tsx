@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { selectTaskData } from "../../redux/selectors";
@@ -15,24 +15,27 @@ const ConfirmModal = ({ name }: IConfirmModalProps) => {
     const { deletableItemId } = useTypedSelector(selectTaskData);
     const dispatch = useDispatch();
 
-    const handleCloseModal = (e: any) => {
+    const handleCloseModal = useCallback((e: any) => {
         e.preventDefault();
         dispatch({ type: globalReducerTypes.CLOSE_CONFIRM_MODAL });
-    };
+    }, []);
 
-    const handleDeleteTask = (e: any, name: string) => {
-        e.preventDefault();
-        dispatch({
-            type: ModalReducerTypes.DELETE_TASK,
-            id: deletableItemId,
-            name,
-        });
-        dispatch({ type: globalReducerTypes.CLOSE_CONFIRM_MODAL });
-    };
+    const handleDeleteTask = useCallback(
+        (e: any, name: string) => {
+            e.preventDefault();
+            dispatch({
+                type: ModalReducerTypes.DELETE_ITEM,
+                id: deletableItemId,
+                name,
+            });
+            dispatch({ type: globalReducerTypes.CLOSE_CONFIRM_MODAL });
+        },
+        [deletableItemId]
+    );
 
-    const stopProp = (e: any) => {
+    const stopProp = useCallback((e: any) => {
         e.stopPropagation();
-    };
+    }, []);
 
     return (
         <div className={styles.container} onClick={handleCloseModal}>

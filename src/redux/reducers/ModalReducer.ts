@@ -127,7 +127,7 @@ const reducer = (
             };
         }
 
-        case ModalReducerTypes.DELETE_TASK: {
+        case ModalReducerTypes.DELETE_ITEM: {
             if (action.name === "task") {
                 const tasksCopy = state.tasks;
                 const newTasks = tasksCopy.filter(
